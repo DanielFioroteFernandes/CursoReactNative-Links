@@ -7,7 +7,8 @@ import { s } from "./styles";
 
 //components
 
-import { Category } from "@/components/category";
+import { Categories } from "@/components/categories";
+import { Link } from "@/components/link";
 
 export default function Index() {
   return (
@@ -19,10 +20,13 @@ export default function Index() {
           <MaterialIcons name="add" size={32} color={colors.green[300]} />
         </TouchableOpacity>
       </View>
-      <Category name="Projeto" icon="code" />
-      <Category name="Site" icon="language" />
+      <Categories />
 
-      <Category name="Video" icon="movie" />
+      <Link
+        name="RockFiorote"
+        url="http://teste.fdp.com"
+        onDetails={() => console.log("clicou")}
+      />
     </View>
   );
 }
