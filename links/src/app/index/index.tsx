@@ -7,6 +7,8 @@ import {
   Text,
 } from "react-native";
 
+import { Route, router } from "expo-router";
+
 import { MaterialIcons } from "@expo/vector-icons";
 
 import { colors } from "@/styles/colors";
@@ -24,7 +26,7 @@ export default function Index() {
       <View style={s.header}>
         <Image source={require("@/assets/logo.png")} style={s.logo} />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => router.navigate("/add")}>
           <MaterialIcons name="add" size={32} color={colors.green[300]} />
         </TouchableOpacity>
       </View>
