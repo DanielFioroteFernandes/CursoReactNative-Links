@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Image,
   View,
@@ -19,8 +20,11 @@ import { s } from "./styles";
 import { Categories } from "@/components/categories";
 import { Link } from "@/components/link";
 import { Option } from "@/components/option";
+import { categories } from "@/utils/categories";
 
 export default function Index() {
+  const [category, setCategory] = useState(categories[0].name);
+
   return (
     <View style={s.container}>
       <View style={s.header}>
@@ -30,7 +34,7 @@ export default function Index() {
           <MaterialIcons name="add" size={32} color={colors.green[300]} />
         </TouchableOpacity>
       </View>
-      <Categories />
+      <Categories onChange={setCategory} selected={category} />
 
       <FlatList
         data={["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]}
