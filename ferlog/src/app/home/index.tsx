@@ -26,7 +26,7 @@ export default function Home() {
 
         <Nota
           data="15/05/2025"
-          remetente="danie fiorote"
+          remetente="danie fiorote fernandes Santoscrus tope e linha"
           destinatario="Janio Fiorote"
           ctrc="176052/V"
           unidade="20"
