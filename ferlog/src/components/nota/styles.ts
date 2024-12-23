@@ -19,8 +19,8 @@ export const s = StyleSheet.create({
     marginBottom: 5, // Added spacing between text fields
   },
   textoLista: {
-    color: colors.gray[600],
-    fontSize: 14,
+    color: colors.gray[500],
+    fontSize: 15,
     fontWeight: "500", // Lighter font weight for a less heavy feel
     marginBottom: 5, // Space between each text item
     lineHeight: 20, // Added line height for better readability

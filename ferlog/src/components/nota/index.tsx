@@ -1,4 +1,4 @@
-import { View, Text, TouchableOpacity } from "react-native";
+import { View, Text, TouchableOpacity, Modal } from "react-native";
 import { s } from "./styles";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "@/styles/colors";
@@ -25,17 +25,12 @@ export function Nota({
   return (
     <View style={s.container}>
       <View style={s.details}>
-        <Text style={s.data} numberOfLines={1}>
-          {data}
-        </Text>
+        <Text style={s.data}>{data}</Text>
+
         <View style={s.row}>
-          <Text style={s.textoLista}>N° CTRC: </Text>
-          <Text style={s.textoLista} numberOfLines={1}>
-            {ctrc}
-          </Text>
+          <Text style={s.textoLista}>{ctrc}</Text>
         </View>
         <View style={s.row}>
-          <Text style={s.textoLista}>Remetente: </Text>
           <Text style={s.textoLista} numberOfLines={1}>
             {remetente}
           </Text>
