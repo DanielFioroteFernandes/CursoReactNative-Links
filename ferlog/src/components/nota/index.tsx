@@ -27,17 +27,14 @@ export function Nota({
       <View style={s.details}>
         <Text style={s.data}>{data}</Text>
 
-        <View style={s.row}>
-          <Text style={s.textoLista}>{ctrc}</Text>
-        </View>
-        <View style={s.row}>
-          <Text style={s.textoLista} numberOfLines={1}>
-            {remetente}
-          </Text>
-        </View>
+        <Text style={s.textoLista}>{ctrc}</Text>
+
+        <Text style={s.textoLista} numberOfLines={1}>
+          {remetente}
+        </Text>
       </View>
-      <TouchableOpacity>
-        <MaterialIcons name="more-horiz" size={20} color={colors.gray[400]} />
+      <TouchableOpacity style={s.iconDetalhes}>
+        <MaterialIcons name="more-horiz" size={20} color={colors.green[300]} />
       </TouchableOpacity>
     </View>
   );

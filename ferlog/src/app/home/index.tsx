@@ -1,15 +1,8 @@
 // react e native
-import {
-  Image,
-  TouchableOpacity,
-  View,
-  ScrollView,
-  Text,
-  Modal,
-} from "react-native";
+import { Modal, ScrollView, Text, TouchableOpacity, View } from "react-native";
 
-import { Option } from "@/components/option";
 import { Nota } from "@/components/nota";
+import { Option } from "@/components/option";
 // styles
 import { colors } from "@/styles/colors";
 import { s } from "./styles";
@@ -168,6 +161,7 @@ export default function Home() {
           valorCtrc="250,00"
           valorServico="80,00"
         />
+
         <Modal transparent visible={true}>
           <View style={s.modal}>
             <View style={s.modalContent}>

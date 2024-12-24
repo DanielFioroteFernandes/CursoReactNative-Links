@@ -10,9 +10,10 @@ export const s = StyleSheet.create({
   },
   details: {
     flex: 1,
+    padding: 5,
   },
   data: {
-    color: colors.gray[300],
+    color: colors.green[300],
     fontSize: 16,
     fontWeight: "600", // Made the font bold for emphasis
 
@@ -26,8 +27,7 @@ export const s = StyleSheet.create({
     lineHeight: 20, // Added line height for better readability
     textTransform: "uppercase",
   },
-
-  row: {
-    flexDirection: "row",
+  iconDetalhes: {
+    padding: 5,
   },
 });

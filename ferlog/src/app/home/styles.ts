@@ -6,6 +6,7 @@ export const s = StyleSheet.create({
     flex: 1,
     paddingTop: 10,
   },
+
   title: {
     color: colors.green[300],
     fontSize: 22,
