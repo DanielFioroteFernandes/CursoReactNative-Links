@@ -10,8 +10,12 @@ import { s } from "./styles";
 // icones
 
 import { MaterialIcons } from "@expo/vector-icons";
+import { useState } from "react";
+import { router } from "expo-router";
 
 export default function Home() {
+  const [showModal, setShowModal] = useState(false);
+
   return (
     <ScrollView>
       <View style={s.container}>
@@ -21,7 +25,7 @@ export default function Home() {
             <Text style={s.fer}>Fer</Text>
             <Text style={s.log}>log</Text>
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => router.navigate("/cadNota")}>
             <MaterialIcons name="add" size={42} color={colors.green[300]} />
           </TouchableOpacity>
         </View>
@@ -162,7 +166,7 @@ export default function Home() {
           valorServico="80,00"
         />
 
-        <Modal transparent visible={true}>
+        <Modal transparent visible={showModal}>
           <View style={s.modal}>
             <View style={s.modalContent}>
               <View style={s.modalHeader}>

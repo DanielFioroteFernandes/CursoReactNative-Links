@@ -20,7 +20,7 @@ export default function Index() {
             Ainda não tem cadastro?{" "}
             <Text
               style={s.link}
-              onPress={() => alert("Navegar para pela de cadastro")}
+              onPress={() => router.navigate("../createUser")}
             >
               Cadastre-se
             </Text>
