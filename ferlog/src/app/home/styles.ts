@@ -67,4 +67,9 @@ export const s = StyleSheet.create({
     borderTopColor: colors.gray[600],
     paddingVertical: 14,
   },
+
+  notasContent: {
+    gap: 10,
+    padding: 15,
+  },
 });

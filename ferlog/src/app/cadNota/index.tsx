@@ -83,15 +83,6 @@ export default function cadNota() {
         return Alert.alert("Valor do CTRC", "Obrigatorio");
       }
 
-      console.log({
-        data,
-        remetente,
-        destinatario,
-        ctrc,
-        unidade,
-        valorCtrc,
-        valorServico,
-      });
       await notaStorage.save({
         id: new Date().getTime().toString(),
 
@@ -103,17 +94,10 @@ export default function cadNota() {
         valorCtrc,
         valorServico,
       });
-      // await linkStorage.save({
-      //   id: new Date().getTime().toString(),
 
-      //   name,
-      //   url,
-      //   category,
-      // });
-
-      // Alert.alert("Sucesso", "Nova Nota adicionado", [
-      //   { text: "ok", onPress: () => router.back() },
-      // ]);
+      Alert.alert("Sucesso", "Nova Nota adicionado", [
+        { text: "ok", onPress: () => router.back() },
+      ]);
     } catch (error) {
       Alert.alert("Erro", "Não foi possível salvar o link");
       console.log(error);
