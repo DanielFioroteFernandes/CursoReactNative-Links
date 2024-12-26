@@ -10,9 +10,11 @@ import { Button } from "@/components/button";
 import { notaStorage } from "@/storage/nota-storage";
 import { router } from "expo-router";
 import { colors } from "@/styles/colors";
+import { format } from "date-fns";
 
 export default function cadNota() {
-  const [data, setData] = useState("");
+  const dataAtual = format(new Date(), "dd/MM/yyyy");
+  const [data, setData] = useState(dataAtual);
   const [remetente, setRemetente] = useState("");
   const [destinatario, setDestinatario] = useState("");
   const [unidade, setUnidade] = useState("");
@@ -95,7 +97,7 @@ export default function cadNota() {
         valorServico,
       });
 
-      Alert.alert("Sucesso", "Nova Nota adicionado", [
+      Alert.alert("Sucesso", "Nota foi adicionada em sua lista", [
         { text: "ok", onPress: () => router.back() },
       ]);
     } catch (error) {
@@ -105,18 +107,17 @@ export default function cadNota() {
   }
 
   return (
-    <ScrollView>
-      <View style={s.container}>
-        <View style={s.header}>
-          {/* <Image source={require("@/assets/logo.png")} style={s.logo} /> */}
-          <Text style={s.text}>
-            <Text style={s.fer}>Fer</Text>
-            <Text style={s.log}>log</Text>
-          </Text>
-        </View>
+    <View style={s.container}>
+      <View style={s.header}>
+        {/* <Image source={require("@/assets/logo.png")} style={s.logo} /> */}
+        <Text style={s.text}>
+          <Text style={s.fer}>Fer</Text>
+          <Text style={s.log}>log</Text>
+        </Text>
+      </View>
 
-        <Text style={s.title}>Cadastre suas notas</Text>
-
+      <Text style={s.title}>Cadastre suas notas</Text>
+      <ScrollView>
         <View style={s.form}>
           <TextInputMask
             type={"datetime"}
@@ -189,7 +190,7 @@ export default function cadNota() {
 
           <Button title="ADICIONAR" onPress={handleAddNota} />
         </View>
-      </View>
-    </ScrollView>
+      </ScrollView>
+    </View>
   );
 }

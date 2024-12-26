@@ -52,11 +52,13 @@ export const s = StyleSheet.create({
     fontSize: 20,
     fontWeight: "500",
     color: colors.gray[400],
+    textAlign: "center",
   },
   modalContentInfo: {
     fontSize: 17,
     fontWeight: "600",
     color: colors.gray[500],
+    textTransform: "uppercase",
   },
   modalFooter: {
     flexDirection: "row",

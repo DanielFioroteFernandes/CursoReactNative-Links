@@ -3,7 +3,6 @@ import {
   Alert,
   FlatList,
   Modal,
-  ScrollView,
   Text,
   TouchableOpacity,
   View,
@@ -20,14 +19,17 @@ import { notaStorage, NotaStorage } from "@/storage/nota-storage";
 // icones
 
 import { MaterialIcons } from "@expo/vector-icons";
-import { useState, useEffect } from "react";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useState } from "react";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
 
+  const [nota, setNota] = useState<NotaStorage>({} as NotaStorage);
+
   const [notas, setNotas] = useState<NotaStorage[]>([]);
 
+  // função para pegar notas cadastrada
   async function getNotas() {
     try {
       const response = await notaStorage.get();
@@ -37,9 +39,37 @@ export default function Home() {
     }
   }
 
-  useEffect(() => {
-    getNotas();
-  }, []);
+  // função para utilizar o setShowModal paraabrir e fechar
+  function handleDetails(selected: NotaStorage) {
+    setShowModal(true);
+
+    setNota(selected);
+  }
+
+  // função handleremove e nota remove pararemover nota
+  async function notaRemove() {
+    try {
+      await notaStorage.remove(nota.id);
+      getNotas();
+      setShowModal(false);
+    } catch (error) {
+      Alert.alert("Error", "Não foi possível excluir a nota selecionada");
+      console.log(error);
+    }
+  }
+
+  function handleRemove() {
+    Alert.alert("Excluir", "Deseja realmente excluir?", [
+      { style: "cancel", text: "Não" },
+      { text: "Sim", onPress: () => notaRemove() },
+    ]);
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      getNotas();
+    }, [])
+  );
 
   return (
     <View style={s.container}>
@@ -66,31 +96,39 @@ export default function Home() {
             unidade={item.unidade}
             valorCtrc={item.valorCtrc}
             valorServico={item.valorServico}
+            onDetails={() => handleDetails(item)}
           />
         )}
         contentContainerStyle={s.notasContent}
       />
-      <Modal transparent visible={showModal}>
+
+      <Modal transparent visible={showModal} animationType="slide">
         <View style={s.modal}>
           <View style={s.modalContent}>
             <View style={s.modalHeader}>
               <Text style={s.modalCategory}>Detalhes da nota</Text>
               <TouchableOpacity>
                 <MaterialIcons
+                  onPress={() => setShowModal(false)}
                   name="close"
-                  size={20}
-                  color={colors.gray[400]}
+                  size={25}
+                  color={"#ff0000"}
                 />
               </TouchableOpacity>
             </View>
-            <Text style={s.modalContentInfo}>Data:</Text>
-            <Text style={s.modalContentInfo}>Remetente:</Text>
-            <Text style={s.modalContentInfo}>Destinatario:</Text>
-            <Text style={s.modalContentInfo}>Unidade::</Text>
-            <Text style={s.modalContentInfo}>N° CTRC:</Text>
-            <Text style={s.modalContentInfo}>Valor CTRC:</Text>
+            <Text style={s.modalContentInfo}>{nota.data}</Text>
+            <Text style={s.modalContentInfo}>{nota.remetente}</Text>
+            <Text style={s.modalContentInfo}>{nota.destinatario}</Text>
+            <Text style={s.modalContentInfo}>{nota.ctrc}</Text>
+            <Text style={s.modalContentInfo}>{nota.unidade}</Text>
+            <Text style={s.modalContentInfo}>{nota.valorCtrc}</Text>
             <View style={s.modalFooter}>
-              <Option name="Excluir" icon="delete" variant="secondary" />
+              <Option
+                name="Excluir"
+                icon="delete"
+                variant="secondary"
+                onPress={handleRemove}
+              />
               <Option name="Editar" icon="edit" />
             </View>
           </View>

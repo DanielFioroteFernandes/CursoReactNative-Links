@@ -31,4 +31,16 @@ async function save(newNota: NotaStorage) {
   }
 }
 
-export const notaStorage = { get, save };
+async function remove(id: string) {
+  try {
+    const storage = await get();
+
+    const update = storage.filter((nota) => nota.id !== id);
+
+    await AsyncStorage.setItem(NOTAS_STORAGE_KEY, JSON.stringify(update));
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const notaStorage = { get, save, remove };

@@ -11,6 +11,7 @@ type Props = {
   unidade: string;
   valorCtrc: string;
   valorServico: string;
+  onDetails: () => void;
 };
 
 export function Nota({
@@ -21,6 +22,7 @@ export function Nota({
   unidade,
   valorCtrc,
   valorServico,
+  onDetails,
 }: Props) {
   return (
     <View style={s.container}>
@@ -33,8 +35,8 @@ export function Nota({
           {remetente}
         </Text>
       </View>
-      <TouchableOpacity style={s.iconDetalhes}>
-        <MaterialIcons name="more-horiz" size={20} color={colors.green[300]} />
+      <TouchableOpacity style={s.iconDetalhes} onPress={onDetails}>
+        <MaterialIcons name="more-horiz" size={30} color={colors.green[300]} />
       </TouchableOpacity>
     </View>
   );
