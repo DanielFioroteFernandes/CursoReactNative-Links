@@ -21,6 +21,7 @@ import { notaStorage, NotaStorage } from "@/storage/nota-storage";
 import { MaterialIcons } from "@expo/vector-icons";
 import { router, useFocusEffect } from "expo-router";
 import { useCallback, useState } from "react";
+import { Input } from "@/components/input";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
@@ -28,6 +29,8 @@ export default function Home() {
   const [nota, setNota] = useState<NotaStorage>({} as NotaStorage);
 
   const [notas, setNotas] = useState<NotaStorage[]>([]);
+
+  const [editMode, setEditMode] = useState(false); // Controla o modo de edição
 
   // função para pegar notas cadastrada
   async function getNotas() {
@@ -41,9 +44,9 @@ export default function Home() {
 
   // função para utilizar o setShowModal paraabrir e fechar
   function handleDetails(selected: NotaStorage) {
-    setShowModal(true);
-
     setNota(selected);
+    setEditMode(false);
+    setShowModal(true);
   }
 
   // função handleremove e nota remove pararemover nota
@@ -63,6 +66,31 @@ export default function Home() {
       { style: "cancel", text: "Não" },
       { text: "Sim", onPress: () => notaRemove() },
     ]);
+  }
+
+  async function handleEditSave() {
+    try {
+      // Atualiza a nota no armazenamento usando o método update do notaStorage
+      await notaStorage.update(nota);
+
+      // Atualiza o estado local para refletir as alterações
+      const updatedNotas = notas.map((item) =>
+        item.id === nota.id ? { ...nota } : item
+      );
+      setNotas(updatedNotas);
+
+      // Fecha o modal
+      setShowModal(false);
+
+      Alert.alert("Sucesso", "Nota atualizada com sucesso.");
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível salvar as alterações.");
+      console.log(error);
+    }
+  }
+
+  function toggleEditMode() {
+    setEditMode((prev) => !prev);
   }
 
   useFocusEffect(
@@ -106,7 +134,9 @@ export default function Home() {
         <View style={s.modal}>
           <View style={s.modalContent}>
             <View style={s.modalHeader}>
-              <Text style={s.modalCategory}>Detalhes da nota</Text>
+              <Text style={s.modalCategory}>
+                {editMode ? "Editar Nota" : "Detalhes da Nota"}
+              </Text>
               <TouchableOpacity>
                 <MaterialIcons
                   onPress={() => setShowModal(false)}
@@ -116,20 +146,63 @@ export default function Home() {
                 />
               </TouchableOpacity>
             </View>
-            <Text style={s.modalContentInfo}>{nota.data}</Text>
-            <Text style={s.modalContentInfo}>{nota.remetente}</Text>
-            <Text style={s.modalContentInfo}>{nota.destinatario}</Text>
-            <Text style={s.modalContentInfo}>{nota.ctrc}</Text>
-            <Text style={s.modalContentInfo}>{nota.unidade}</Text>
-            <Text style={s.modalContentInfo}>{nota.valorCtrc}</Text>
+            {/* Campos de edição ou exibição */}
+            {editMode ? (
+              <View>
+                <Input
+                  value={nota.data}
+                  onChangeText={(text) => setNota({ ...nota, data: text })}
+                />
+                <Input
+                  value={nota.remetente}
+                  onChangeText={(text) => setNota({ ...nota, remetente: text })}
+                />
+                <Input
+                  value={nota.destinatario}
+                  onChangeText={(text) =>
+                    setNota({ ...nota, destinatario: text })
+                  }
+                />
+                <Input
+                  value={nota.ctrc}
+                  onChangeText={(text) => setNota({ ...nota, ctrc: text })}
+                />
+                <Input
+                  value={nota.unidade}
+                  onChangeText={(text) => setNota({ ...nota, unidade: text })}
+                />
+                <Input
+                  value={nota.valorCtrc}
+                  onChangeText={(text) => setNota({ ...nota, valorCtrc: text })}
+                />
+                {/* Adicione mais campos editáveis conforme necessário */}
+              </View>
+            ) : (
+              <View>
+                <Text style={s.modalContentInfo}>{nota.data}</Text>
+                <Text style={s.modalContentInfo}>{nota.remetente}</Text>
+                <Text style={s.modalContentInfo}>{nota.destinatario}</Text>
+                <Text style={s.modalContentInfo}>{nota.ctrc}</Text>
+                <Text style={s.modalContentInfo}>{nota.unidade}</Text>
+                <Text style={s.modalContentInfo}>{nota.valorCtrc}</Text>
+                {/* Adicione mais informações conforme necessário */}
+              </View>
+            )}
+
             <View style={s.modalFooter}>
-              <Option
-                name="Excluir"
-                icon="delete"
-                variant="secondary"
-                onPress={handleRemove}
-              />
-              <Option name="Editar" icon="edit" />
+              {editMode ? (
+                <Option name="Salvar" icon="save" onPress={handleEditSave} />
+              ) : (
+                <View style={s.modalFooter}>
+                  <Option name="Editar" icon="edit" onPress={toggleEditMode} />
+                  <Option
+                    name="Delete"
+                    icon="delete"
+                    onPress={handleRemove}
+                    variant={"secondary"}
+                  />
+                </View>
+              )}
             </View>
           </View>
         </View>

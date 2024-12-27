@@ -43,4 +43,24 @@ async function remove(id: string) {
   }
 }
 
-export const notaStorage = { get, save, remove };
+// Função para atualizar uma nota existente
+async function update(updatedNota: NotaStorage) {
+  try {
+    const storage = await get();
+
+    // Localiza a nota e a atualiza
+    const updatedStorage = storage.map((nota) =>
+      nota.id === updatedNota.id ? updatedNota : nota
+    );
+
+    // Salva o array atualizado
+    await AsyncStorage.setItem(
+      NOTAS_STORAGE_KEY,
+      JSON.stringify(updatedStorage)
+    );
+  } catch (error) {
+    throw error;
+  }
+}
+
+export const notaStorage = { get, save, remove, update };
