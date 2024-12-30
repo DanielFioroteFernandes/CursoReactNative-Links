@@ -46,19 +46,15 @@ async function remove(id: string) {
 // Função para atualizar uma nota existente
 async function update(updatedNota: NotaStorage) {
   try {
-    const storage = await get();
+    const notas = await get(); // Obter todas as notas armazenadas
+    const index = notas.findIndex((nota) => nota.id === updatedNota.id);
 
-    // Localiza a nota e a atualiza
-    const updatedStorage = storage.map((nota) =>
-      nota.id === updatedNota.id ? updatedNota : nota
-    );
+    if (index === -1) throw new Error("Nota não encontrada.");
 
-    // Salva o array atualizado
-    await AsyncStorage.setItem(
-      NOTAS_STORAGE_KEY,
-      JSON.stringify(updatedStorage)
-    );
+    notas[index] = updatedNota; // Atualizar a nota correspondente
+    await AsyncStorage.setItem("notas", JSON.stringify(notas));
   } catch (error) {
+    console.error("Erro ao atualizar a nota:", error);
     throw error;
   }
 }

@@ -1,49 +1,33 @@
-import { ScrollView, Text, View, Alert } from "react-native";
+import { Alert, ScrollView, Text, View } from "react-native";
 
 import { TextInputMask } from "react-native-masked-text";
 
-import { useState, useEffect } from "react";
-import { Input } from "@/components/input";
-import { s } from "./styles";
-import { Button } from "@/components/button";
+//hooks
+import { useCalculoServico } from "@/hooks/useCalculoServico";
 
+import { Button } from "@/components/button";
+import { Input } from "@/components/input";
+import { useState } from "react";
+import { s } from "./styles";
+
+import { InputMask } from "@/components/InputMask";
 import { notaStorage } from "@/storage/nota-storage";
-import { router } from "expo-router";
 import { colors } from "@/styles/colors";
 import { format } from "date-fns";
+import { router } from "expo-router";
 
 export default function cadNota() {
   const dataAtual = format(new Date(), "dd/MM/yyyy");
+
   const [data, setData] = useState(dataAtual);
   const [remetente, setRemetente] = useState("");
   const [destinatario, setDestinatario] = useState("");
   const [unidade, setUnidade] = useState("");
   const [ctrc, setCtrc] = useState("");
-  const [valorCtrc, setValorCtrc] = useState("");
-  const [valorServico, setValorServico] = useState("");
+  // const [valorCtrc, setValorCtrc] = useState("");
+  // const [valorServico, setValorServico] = useState("");
 
-  // Atualiza automaticamente o valor do serviço baseado no valor do CTRC
-  useEffect(() => {
-    if (valorCtrc) {
-      const valorNumerico = parseFloat(
-        valorCtrc.replace(/[^\d,]/g, "").replace(",", ".")
-      );
-      if (!isNaN(valorNumerico)) {
-        // Calcula 20% do valor
-        let valorServicoCalculado = valorNumerico * 0.2;
-
-        // Aplica os limites
-        if (valorServicoCalculado < 80) {
-          valorServicoCalculado = 80;
-        } else if (valorServicoCalculado > 320) {
-          valorServicoCalculado = 320;
-        }
-
-        // Atualiza o estado com o valor final formatado
-        setValorServico(valorServicoCalculado.toFixed(2));
-      }
-    }
-  }, [valorCtrc]);
+  const { valorCtrc, setValorCtrc, valorServico } = useCalculoServico();
 
   //Mascara para adicionar uma barra assim que digitar uma letra depois do numero
   const aplicarMascara = (text: string) => {
@@ -117,19 +101,19 @@ export default function cadNota() {
       </View>
 
       <Text style={s.title}>Cadastre suas notas</Text>
+
       <ScrollView>
         <View style={s.form}>
-          <TextInputMask
-            type={"datetime"}
+          <InputMask
+            type="datetime"
             options={{ format: "DD/MM/YYYY" }}
-            style={s.InputMask}
-            placeholder=" DATA: DD/MM/AAAA"
+            placeholder="DATA: "
             keyboardType="numeric"
             value={data}
             onChangeText={(text) => setData(text)}
             autoCorrect={false}
-            placeholderTextColor={colors.gray[400]}
           />
+
           <Input
             placeholder="REMETENTE:"
             onChangeText={setRemetente}
@@ -151,9 +135,8 @@ export default function cadNota() {
             onChangeText={setUnidade}
             autoCorrect={false}
           />
-
-          <TextInputMask
-            type={"money"}
+          <InputMask
+            type="money"
             options={{
               precision: 2,
               separator: ",",
@@ -161,13 +144,10 @@ export default function cadNota() {
               unit: "R$ ",
               suffixUnit: "",
             }}
-            value={valorCtrc}
             onChangeText={(text) => setValorCtrc(text)}
-            style={s.InputMask}
-            placeholder="VALOR DO CTRC"
+            placeholder="VALOR DO CTRC:"
             keyboardType="numeric"
             autoCorrect={false}
-            placeholderTextColor={colors.gray[400]}
           />
 
           <TextInputMask
