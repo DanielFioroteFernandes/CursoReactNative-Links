@@ -1,5 +1,4 @@
-import { useState, useEffect } from "react";
-import { notaStorage, NotaStorage } from "@/storage/nota-storage";
+import { useEffect, useState } from "react";
 /**
  * Hook personalizado para calcular o valor do serviço com base no valor do CTRC.
  * Aplica limites mínimos e máximos ao valor calculado.

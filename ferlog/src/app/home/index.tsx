@@ -83,46 +83,41 @@ export default function Home() {
   }
 
   async function handleEditSave() {
-    if (
-      !nota.id ||
-      !nota.data ||
-      !nota.remetente ||
-      !nota.destinatario ||
-      !nota.valorCtrc ||
-      !nota.valorServico
-    ) {
+    if (!nota.remetente || !nota.destinatario || !nota.data) {
       Alert.alert("Erro", "Preencha todos os campos obrigatórios.");
       return;
     }
-    try {
-      console.log("Nota antes de salvar:", nota);
-      // Atualiza a nota no armazenamento usando o método update do notaStorage
 
+    try {
       const updatedNota = {
         ...nota,
         valorCtrc,
         valorServico,
       };
+
       await notaStorage.update(updatedNota);
 
-      // Atualiza o estado local para refletir as alterações
       const updatedNotas = notas.map((item) =>
         item.id === nota.id ? updatedNota : item
       );
       setNotas(updatedNotas);
-
-      // Fecha o modal
       setShowModal(false);
-
       Alert.alert("Sucesso", "Nota atualizada com sucesso.");
     } catch (error) {
       Alert.alert("Erro", "Não foi possível salvar as alterações.");
-      console.log(error);
+      console.error(error);
     }
   }
 
   function toggleEditMode() {
-    setEditMode((prev) => !prev);
+    setEditMode((prev) => {
+      if (!prev) {
+        // Reseta o estado dos campos no modo edição
+        setValorCtrc(nota.valorCtrc || "");
+        updateValorServico(nota.valorServico || "");
+      }
+      return !prev;
+    });
   }
 
   useFocusEffect(
