@@ -162,7 +162,7 @@ export default function Home() {
           <View style={s.modalContent}>
             <View style={s.modalHeader}>
               <Text style={s.modalCategory}>
-                {editMode ? "Editar Nota" : "Detalhes da Nota"}
+                {editMode ? "Alterar nota" : "Nota "}
               </Text>
               <TouchableOpacity>
                 <MaterialIcons
@@ -175,7 +175,7 @@ export default function Home() {
             </View>
             {/* Campos de edição ou exibição */}
             {editMode ? (
-              <View>
+              <View style={s.form}>
                 <InputMask
                   type="datetime"
                   options={{ format: "DD/MM/YYYY" }}
@@ -259,7 +259,7 @@ export default function Home() {
               {editMode ? (
                 <Option name="Salvar" icon="save" onPress={handleEditSave} />
               ) : (
-                <View style={s.modalFooter}>
+                <View style={s.modalFooterEditar}>
                   <Option name="Editar" icon="edit" onPress={toggleEditMode} />
                   <Option
                     name="Delete"

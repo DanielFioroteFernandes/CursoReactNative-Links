@@ -29,6 +29,8 @@ export const s = StyleSheet.create({
   log: {
     color: "#ffffff", // Cor para "log" (laranja, por exemplo)
   },
+
+  // Estilo do Modal
   modal: {
     flex: 1,
     justifyContent: "flex-end",
@@ -51,27 +53,33 @@ export const s = StyleSheet.create({
     flex: 1,
     fontSize: 20,
     fontWeight: "500",
-    color: colors.gray[400],
+    color: colors.green[300],
     textAlign: "center",
   },
   modalContentInfo: {
-    fontSize: 17,
+    fontSize: 16,
     fontWeight: "600",
-    color: colors.gray[500],
+    color: colors.gray[600],
     textTransform: "uppercase",
   },
   modalFooter: {
-    flexDirection: "row",
-    marginTop: 32,
+    marginTop: 25,
     width: "100%",
+    borderTopWidth: 2,
+    borderTopColor: colors.green[300],
+    paddingVertical: 14,
+  },
+  modalFooterEditar: {
+    flexDirection: "row",
     justifyContent: "space-between",
-    borderTopWidth: 1,
-    borderTopColor: colors.gray[600],
     paddingVertical: 14,
   },
 
   notasContent: {
     gap: 10,
     padding: 15,
+  },
+  form: {
+    gap: 10,
   },
 });
